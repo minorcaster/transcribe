@@ -1,25 +1,18 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-        <title>Transcribe</title>
-        <link rel="stylesheet" href="style.css" type="text/css">
-        <script src="index.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            OpenAI API key:
-            <input type="text" id="api-key" placeholder="sk-xxxx">
-            <div class="disclaimer">The API key is only sent to Open AI directly. It is saved to your browser's localStorage.</div>
-            <div id="start-view">
-                Start by <a href="https://platform.openai.com/account/api-keys" target="_blank">getting an API key</a> from OpenAI.
-                <div class="disclaimer">OpenAI documentation says "Do not share your API key with others, or expose it in the browser or other client-side code." This means that if you are <strong>building</strong> a web app, you should not leak the service's API key to your users.</div>
-            </div>
-            <form id="upload-form">
-                <!-- https://platform.openai.com/docs/guides/speech-to-text/supported-languages -->
-                <select name="language" id="language">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Transcribe</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <form id="upload-form">
+        <!-- https://platform.openai.com/docs/guides/speech-to-text/supported-languages -->
+        <select name="language" id="language">
                     <option value="" selected>Automatic language (slower)</option>
                     <option value="en">English</option>
                     <option value="af">Afrikaans</option>
@@ -81,22 +74,21 @@
                 </select>
                 <br />
                 <select id="response_format" name="response_format">
-                    <option value="verbose_json" selected>Normal text</option>
-                    <option value="srt">SRT</option>
-                    <option value="vtt">VTT</option>
-                </select><br />
-                <br>
+                  <option value="verbose_json" selected>Normal text</option>
+                  <option value="srt">SRT</option>
+                  <option value="vtt">VTT</option>
+                </select><br /><br>
                 <label for="audio-file" class="button">Choose an audio file</label>
                 <input type="file" accept="audio/mp3, audio/mp4, audio/mpeg, audio/mpga, audio/m4a, audio/wav, audio/webm, video/mp4, video/mpeg, video/webm" id="audio-file" name="file" style="visibility:hidden;">
               </form>
-            <div id="output"></div>
-            <footer>
+              <div id="output"></div>
+              <footer>
                 <a href="https://platform.openai.com/account/usage" target="_blank">Your usage</a>
                 &middot;
                 <a href="https://github.com/felixbade/transcribe" target="_blank">Source code</a>
                 &middot;
                 <a href="https://github.com/felixbade/transcribe/issues" target="_blank">Feature request</a>
-            </footer>
-        </div>
-    </body>
-</html>
+              </footer>
+            </div>
+          </body>
+        </html>
