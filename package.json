@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "form-data": "^4.0.0"
+  },
+  "name": "nokov-whisper",
+  "description": "Web UI for Open AI Whisper API",
+  "version": "1.0.0",
+  "main": "yes",
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "transcribe"
+  },
+  "keywords": [
+    "whisper-api"
+  ],
+  "author": "Peng Gao",
+  "license": "MIT"
+}

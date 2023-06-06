@@ -1,4 +1,5 @@
 // /api/transcribe.js
+const FormData = require('form-data');
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
