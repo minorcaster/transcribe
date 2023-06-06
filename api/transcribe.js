@@ -1,4 +1,7 @@
-const fetch = require('node-fetch');
+let fetch;
+import('node-fetch').then(mod => {
+  fetch = mod.default;
+});
 const FormData = require('form-data');
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
@@ -10,11 +13,10 @@ module.exports = (req, res) => {
     }
 
     const apiKey = process.env.OPENAI_API_KEY;
-    const file = req.file;  // The uploaded file
+    const file = req.file;
     const language = req.body.language;
     const response_format = req.body.response_format || 'verbose_json';
 
-    // Prepare the form data
     const formData = new FormData();
     formData.append('file', file.buffer, { filename: file.originalname });
     formData.append('model', 'whisper-1');
@@ -23,7 +25,6 @@ module.exports = (req, res) => {
       formData.append('language', language);
     }
 
-    // Make the request to the OpenAI API
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
       body: formData,
@@ -32,7 +33,6 @@ module.exports = (req, res) => {
       }
     });
 
-    // Handle the response format
     let result;
     if (response_format === 'json' || response_format === 'verbose_json') {
       result = await response.json();
@@ -40,7 +40,6 @@ module.exports = (req, res) => {
       result = await response.text();
     }
 
-    // Return the result
     res.json({ result });
   });
 };
