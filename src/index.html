@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>NOKOV音频转录</title>
     <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="icon" href="/favicon.ico" />
     <script src="index.js"></script>
   </head>
   <body>
@@ -75,8 +76,8 @@
                 <br />
                 <select id="response_format" name="response_format">
                   <option value="verbose_json" selected>普通文本</option>
-                  <option value="srt">SRT</option>
-                  <option value="vtt">VTT</option>
+                  <option value="srt">SRT格式</option>
+                  <option value="vtt">VTT格式</option>
                 </select><br /><br>
                 <label for="audio-file" class="button">选择一个音频文件</label>
                 <input type="file" accept="audio/mp3, audio/mp4, audio/mpeg, audio/mpga, audio/m4a, audio/wav, audio/webm, video/mp4, video/mpeg, video/webm" id="audio-file" name="file" style="visibility:hidden;">
