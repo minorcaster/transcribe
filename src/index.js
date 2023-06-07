@@ -70,10 +70,14 @@ window.addEventListener('load', () => {
       } else {
         setTranscribedPlainText(transcription);
       }
-
-    // Enable the download button and add a click event listener
-    downloadButton.disabled = false;
-    downloadButton.addEventListener('click', function() {
+  
+      // Enable the download button and add a click event listener
+      downloadButton.disabled = false;
+      
+      // Show the download button
+      downloadButton.style.display = 'inline-block';
+  
+      downloadButton.addEventListener('click', function() {
       // Get the displayed text from the outputElement
       const displayedText = outputElement.innerText;
 

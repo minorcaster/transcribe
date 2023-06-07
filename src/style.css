@@ -57,6 +57,10 @@ body {
     margin: 2em 0;
 }
 
+#download-btn {
+    display: none;
+  }
+
 input {
     font-size: 16px;
 }
