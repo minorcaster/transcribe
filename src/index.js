@@ -65,17 +65,20 @@ window.addEventListener('load', () => {
     const response_format = document.querySelector('#response_format').value;
     const response = transcribe(file, language, response_format);
     response.then(transcription => {
+      let outputText;
       if (response_format === 'verbose_json') {
         setTranscribedSegments(transcription.segments);
+        outputText = transcription.segments.map(segment => segment.text).join('\n');
       } else {
         setTranscribedPlainText(transcription);
+        outputText = transcription;
       }
 
       // Enable the download button and add a click event listener
       downloadButton.disabled = false;
       downloadButton.addEventListener('click', function() {
-        // Create a Blob from the transcription text
-        let blob = new Blob([transcription], {type: "text/plain;charset=utf-8"});
+        // Create a Blob from the output text
+        let blob = new Blob([outputText], {type: "text/plain;charset=utf-8"});
         
         // Create a URL for the Blob
         let url = URL.createObjectURL(blob);
