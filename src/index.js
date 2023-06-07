@@ -6,7 +6,6 @@ const transcribe = (file, language, response_format) => {
   if (language) {
     formData.append('language', language);
   }
-
   // Make a request to the serverless function instead of directly to the OpenAI API
   return fetch('/api/transcribe', {
     method: 'POST',
@@ -32,6 +31,8 @@ const updateTextareaSize = (element) => {
 };
 
 let outputElement;
+let downloadButton;
+
 const setTranscribingMessage = (text) => {
   outputElement.innerHTML = text;
 };
@@ -53,22 +54,9 @@ const setTranscribedSegments = (segments) => {
   }
 };
 
-const downloadTranscription = () => {
-  const textContent = outputElement.innerText;
-  const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'transcription.txt';
-  link.click();
-  URL.revokeObjectURL(url);
-};
-
-let downloadButton = document.querySelector('#download-btn');
-downloadButton.addEventListener('click', downloadTranscription);
-
 window.addEventListener('load', () => {
   outputElement = document.querySelector('#output');
+  downloadButton = document.querySelector('#download-btn');
   const fileInput = document.querySelector('#audio-file');
   fileInput.addEventListener('change', () => {
     setTranscribingMessage('Transcribing...');
@@ -82,8 +70,28 @@ window.addEventListener('load', () => {
       } else {
         setTranscribedPlainText(transcription);
       }
-      // Allow multiple uploads without refreshing the page
-      fileInput.value = null;
+
+    // Enable the download button and add a click event listener
+    downloadButton.disabled = false;
+    downloadButton.addEventListener('click', function() {
+      // Get the displayed text from the outputElement
+      const displayedText = outputElement.innerText;
+
+      // Create a Blob from the displayed text
+      let blob = new Blob([displayedText], {type: "text/plain;charset=utf-8"});
+      
+      // Create a URL for the Blob
+      let url = URL.createObjectURL(blob);
+
+      // Create a temporary anchor element and click it to start the download
+      let tempLink = document.createElement('a');
+      tempLink.href = url;
+      tempLink.download = 'transcription.txt';
+      tempLink.click();
+    });
+
+    // Allow multiple uploads without refreshing the page
+    fileInput.value = null;
     });
   });
 });
