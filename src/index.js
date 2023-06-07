@@ -6,7 +6,6 @@ const transcribe = (file, language, response_format) => {
   if (language) {
     formData.append('language', language);
   }
-
   // Make a request to the serverless function instead of directly to the OpenAI API
   return fetch('/api/transcribe', {
     method: 'POST',
@@ -32,6 +31,8 @@ const updateTextareaSize = (element) => {
 };
 
 let outputElement;
+let downloadButton;
+
 const setTranscribingMessage = (text) => {
   outputElement.innerHTML = text;
 };
@@ -55,6 +56,7 @@ const setTranscribedSegments = (segments) => {
 
 window.addEventListener('load', () => {
   outputElement = document.querySelector('#output');
+  downloadButton = document.querySelector('#download-btn');
   const fileInput = document.querySelector('#audio-file');
   fileInput.addEventListener('change', () => {
     setTranscribingMessage('Transcribing...');
@@ -68,6 +70,23 @@ window.addEventListener('load', () => {
       } else {
         setTranscribedPlainText(transcription);
       }
+
+      // Enable the download button and add a click event listener
+      downloadButton.disabled = false;
+      downloadButton.addEventListener('click', function() {
+        // Create a Blob from the transcription text
+        let blob = new Blob([transcription], {type: "text/plain;charset=utf-8"});
+        
+        // Create a URL for the Blob
+        let url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element and click it to start the download
+        let tempLink = document.createElement('a');
+        tempLink.href = url;
+        tempLink.download = 'transcription.' + response_format;
+        tempLink.click();
+      });
+
       // Allow multiple uploads without refreshing the page
       fileInput.value = null;
     });
