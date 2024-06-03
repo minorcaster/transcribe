@@ -4,7 +4,7 @@ import multer from 'multer';
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-export default (req, res) => {
+const handler = (req, res) => {
   upload.single('file')(req, res, async (err) => {
     if (err) {
       return res.status(400).json({ error: 'Error processing file upload.' });
@@ -15,6 +15,10 @@ export default (req, res) => {
     const language = req.body.language;
     const response_format = req.body.response_format || 'verbose_json';
 
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Missing OpenAI API key.' });
+    }
+
     const formData = new FormData();
     formData.append('file', file.buffer, { filename: file.originalname });
     formData.append('model', 'whisper-1');
@@ -23,21 +27,27 @@ export default (req, res) => {
       formData.append('language', language);
     }
 
-    const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-      },
-    });
+    try {
+      const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+        },
+      });
 
-    let result;
-    if (response_format === 'json' || response_format === 'verbose_json') {
-      result = await response.json();
-    } else {
-      result = await response.text();
+      let result;
+      if (response_format === 'json' || response_format === 'verbose_json') {
+        result = await response.json();
+      } else {
+        result = await response.text();
+      }
+
+      res.json({ result });
+    } catch (error) {
+      res.status(500).json({ error: 'Error processing transcription request.' });
     }
-
-    res.json({ result });
   });
 };
+
+export default handler;
